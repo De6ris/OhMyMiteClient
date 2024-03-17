@@ -1,4 +1,4 @@
-package com.github.Debris.oh_my_mite_client.mixins;
+package com.github.Debris.oh_my_mite_client.mixins.gui;
 
 import net.minecraft.*;
 import org.spongepowered.asm.mixin.Mixin;

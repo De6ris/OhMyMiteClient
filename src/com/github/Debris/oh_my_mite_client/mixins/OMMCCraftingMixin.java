@@ -10,6 +10,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class OMMCCraftingMixin {
     @Inject(method = "onUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/NetClientHandler;addToSendQueue(Lnet/minecraft/Packet;)V"))
     private void inject(CallbackInfo ci) {
-
+//TODO
     }
 }
