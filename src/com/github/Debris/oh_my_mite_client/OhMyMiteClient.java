@@ -1,6 +1,6 @@
 package com.github.Debris.oh_my_mite_client;
 
-import com.github.Debris.oh_my_mite_client.config.Config;
+import com.github.Debris.oh_my_mite_client.config.FishConfig;
 import com.github.Debris.oh_my_mite_client.mixins.MixinMarker;
 import net.xiaoyu233.fml.AbstractMod;
 import net.xiaoyu233.fml.classloading.Mod;
@@ -17,7 +17,7 @@ public class OhMyMiteClient extends AbstractMod {
 
     public static final String MOD_ID = "OhMyMiteClient";
 
-    private static final ConfigRegistry CONFIG_REGISTRY = new ConfigRegistry(Config.ROOT, new File(MOD_ID + ".json"));
+    private static final ConfigRegistry CONFIG_REGISTRY = new ConfigRegistry(FishConfig.ROOT, new File(MOD_ID + ".json"));
 
 
     @Override

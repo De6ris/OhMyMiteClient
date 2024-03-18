@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiOptions.class)
-public abstract class OMMCGuiOptionsMixin extends GuiScreen {
+public abstract class GuiOptionsMixin extends GuiScreen {
     @Inject(method = "initGui", at = @At("TAIL"))
     private void registerButton(CallbackInfo ci) {
         this.buttonList.add(new GuiButton(111, this.width / 2 + 2, this.height / 6 + 72 - 6, 150, 20, "OMMC按键设置"));

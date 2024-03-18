@@ -15,17 +15,18 @@ public class TriggerHandler {
         return INSTANCE;
     }
 
-    public void handle(FeatureToggle featureToggle, Minecraft minecraft) {
-        switch (featureToggle) {
+    public void handle(TweakToggle tweakToggle, Minecraft minecraft) {
+        switch (tweakToggle) {
             case Tweak_CopyTP: {
                 Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
                 String content = "/tp " + minecraft.thePlayer.posX + " " + minecraft.thePlayer.posY + " " + minecraft.thePlayer.posZ;
                 StringSelection selection = new StringSelection(content);
                 clipboard.setContents(selection, null);
+                minecraft.thePlayer.addChatMessage("tp命令已复制到剪贴板");
                 return;
             }
             case Tweak_ToggleMode: {
-                int mode = Config.gameMode ^= 1;
+                int mode = FishConfig.gameMode ^= 1;
                 minecraft.openChat(new GuiChat("/gamemode " + mode));
                 return;
             }
