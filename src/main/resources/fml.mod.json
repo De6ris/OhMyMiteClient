@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "ommc",
+  "version": "${version}",
+  "depends": {
+    "fishmodloader": ">=3.4.1",
+    "many-lib": ">=2.2.1"
+  },
+  "environment": "client",
+  "name": "OhMyMiteClient",
+  "description": "Some useful cheating tweaks\n一些有用的作弊功能",
+  "icon": "assets/ommc/icon.png",
+  "authors": [
+    "Debris"
+  ],
+  "entrypoints": {
+    "main": [
+      "com.github.Debris.ommc.OhMyMiteClient"
+    ],
+    "modmenu": [
+      "com.github.Debris.ommc.compat.ModMenuImpl"
+    ]
+  },
+  "mixins": [
+    "OhMyMiteClient.mixins.json"
+  ],
+  "accessWidener": "OhMyMiteClient.accesswidener",
+  "custom": {
+    "modmenu:clientsideOnly": true,
+    "modmenu:parent": "many-lib"
+  }
+}

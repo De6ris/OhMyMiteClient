@@ -1,0 +1,106 @@
+plugins {
+    id 'fml-loom' version '0.1.local'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+//    archivesName = project.archives_base_name
+    archivesName = "[MITE生电]ommc"
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        name = "Spongepowered"
+        url = "https://repo.spongepowered.org/repository/maven-public/"
+    }
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/OhMyMiteClient.accesswidener")
+    mergedMinecraftJar()
+    setFML(new File("${lib_dir}/${fish_mod_loader}"))
+    mods {
+        "OhMyMiteClient" {
+            sourceSet sourceSets.main
+        }
+    }
+
+}
+
+runClient {
+    args("--username", "${username}", "--session", "a.a.a.a", "--width", 854, "--height", 480)
+}
+
+dependencies {
+    // To change the versions see the gradle.properties file
+
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.fmlMCPMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+//	implementation("org.spongepowered:mixin:0.8.5")
+
+    implementation files(loom.getFML().toPath())
+
+    //must
+    implementation files("${lib_dir}/ManyLib.jar")
+
+    //optional
+    implementation files("${lib_dir}/ModernMite.jar")
+    implementation files("${lib_dir}/GammaFree.jar")
+    implementation files("${lib_dir}/Neodymium.jar")
+    implementation files("${lib_dir}/FPSPlus.jar")
+    implementation files("${lib_dir}/ExtraGui.jar")
+    implementation files("${lib_dir}/Hwite.jar")
+    implementation files("${lib_dir}/ModMenu.jar")
+    implementation files("${lib_dir}/PinIn-Lib.jar")
+    implementation files("${lib_dir}/EMI.jar")
+    implementation files("${lib_dir}/MixinConflictHelper.jar")
+    implementation files("${lib_dir}/RustedIronCore.jar")
+    implementation files("${lib_dir}/Baubles.jar")
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fml.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+}
+
+java {
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+    // if it is present.
+    // If you remove this line, sources will not be generated.
+    withSourcesJar()
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+jar {
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
+    }
+}

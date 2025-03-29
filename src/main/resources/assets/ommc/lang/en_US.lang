@@ -1,0 +1,63 @@
+config.name.OpenWindow=Open Config Menu
+config.comment.OpenWindow=Directly open this menu
+
+config.name.AutoForward=Auto Forward
+config.name.AutoLeft=Auto Left
+config.name.AutoBack=Auto Back
+config.name.AutoRight=Auto Right
+config.name.AutoJump=Auto Jump
+config.name.AutoSneak=Auto Sneak
+config.name.ommc.holdAttack=Hold Attack
+config.name.ommc.periodicAttack=Periodic Attack
+config.name.ommc.holdUse=Hold Use
+config.name.ommc.periodicUse=Periodic Use
+config.name.CancelEntityRender=Cancel Entity Render
+config.name.FastFlying=Fast Flying
+
+config.name.CopyTP=Copy TP Command
+config.comment.CopyTP=Once pressed, copy tp command to clipboard
+
+config.name.ToggleGameMode=Toggle Game Mode
+config.comment.ToggleGameMode=Toggle between survival and creative
+
+config.name.EnchantmentPreview=Enchantment Preview
+config.comment.EnchantmentPreview=(Two-sided)Operate items on the enchanting table\n and you will receive the results at chat
+
+config.name.AutoCrafting=Auto Crafting
+config.name.ToolSwitch=Tool Switch
+config.name.WeaponSwitch=Weapon Switch
+
+config.name.ommc.periodicAttackInterval=Periodic Attack Interval
+config.comment.ommc.periodicAttackInterval=In ticks
+
+config.name.ommc.periodicUseInterval=Periodic Use Interval
+config.comment.ommc.periodicUseInterval=In ticks
+
+config.name.FlySpeedLevel=Fly Speed Level
+config.name.FlySpeedVertical=Fly Speed Vertical
+
+config.name.OverrideUseInterval=Override Use Interval
+config.comment.OverrideUseInterval=In milliseconds
+
+config.name.ommc.toolSwitchMode=Tool Switch Mode
+
+config.enum.ommc.toolSwitchMode.Order=Order
+config.enum.ommc.toolSwitchMode.Durability=Durability Remained
+config.enum.ommc.toolSwitchMode.Material=Material
+
+config.tab.ommc.toggles=Toggles
+config.tab.ommc.numerical=Numerical
+
+config.value.comment.OhMyMiteClient=Some tweaks
+config.hotkey.comment.OhMyMiteClient=Some tweaks
+
+ommc.toggleGameMode.fail=Failed to toggle game mode: you are not in dev mode!
+ommc.CopyTP.success=Successfully copied tp command to clipboard
+
+ommc.gui.button.hotkey=Hotkey Settings
+ommc.gui.button.toggles=Function Settings
+ommc.gui.button.values=Value Settings
+ommc.gui.button.reset_all=Reset All
+ommc.gui.reset_all_question=Are you sure you want to reset all?
+
+ommc.gui.button.comment.hotkey=Some functions that don't need a hotkey
