@@ -1,9 +1,9 @@
 package com.github.Debris.ommc.mixins.gui;
 
 import com.github.Debris.ommc.config.OMMCConfig;
+import com.github.Debris.ommc.inventory.InventoryTweaks;
 import com.github.Debris.ommc.inventory.InventoryUtil;
 import com.github.Debris.ommc.inventory.section.SectionHandler;
-import com.github.Debris.ommc.util.InventoryHandler;
 import com.github.Debris.ommc.util.ItemUtil;
 import net.minecraft.GuiContainer;
 import net.minecraft.GuiScreen;
@@ -28,25 +28,21 @@ public abstract class GuiContainerMixin extends GuiScreen {
 
     @Inject(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/GuiScreen;mouseClicked(III)V", shift = At.Shift.AFTER), cancellable = true)
     private void preTricks(int par1, int par2, int button, CallbackInfo ci) {
-        Slot mouseOver = this.theSlot;
-        if (button == 0 && InventoryHandler.shouldDoTrick(mouseOver) && InventoryHandler.shouldCancelLeftClick(mouseOver)) {
+        if (button == 0 && InventoryTweaks.shouldCancelLeftClick(this.theSlot)) {
             ci.cancel();
         }
     }
 
     @Inject(method = "drawScreen", at = @At("RETURN"))
     private void onRender(int par1, int par2, float par3, CallbackInfo ci) {
-        Slot mouseOver = this.theSlot;
-        if (InventoryHandler.shouldDoTrick(mouseOver)) {
-            InventoryHandler.onRender((GuiContainer) (Object) this, par1, par2, mouseOver);
-        }
+        InventoryTweaks.onRender((GuiContainer) (Object) this, par1, par2, this.theSlot);
     }
 
 
     @Inject(method = "keyTyped", at = @At("HEAD"))
     private void dropAll(char par1, int par2, CallbackInfo ci) {
         Slot mouseOver = this.theSlot;
-        if (InventoryHandler.shouldDoTrick(mouseOver) && OMMCConfig.DropSimilar.getKeybind().isKeybindHeld()) {
+        if (InventoryTweaks.shouldDoTrick(mouseOver) && OMMCConfig.DropSimilar.getKeybind().isKeybindHeld()) {
             SectionHandler.getSection(mouseOver).predicateRun(ItemUtil.predicateIDMeta(mouseOver.getStack()), InventoryUtil::dropStack);
         }
     }

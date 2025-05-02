@@ -11,7 +11,7 @@ config.name.ommc.holdAttack=Hold Attack
 config.name.ommc.periodicAttack=Periodic Attack
 config.name.ommc.holdUse=Hold Use
 config.name.ommc.periodicUse=Periodic Use
-config.name.CancelEntityRender=Cancel Entity Render
+config.name.CullEntityRender=Cull Entity Render
 config.name.FastFlying=Fast Flying
 
 config.name.CopyTP=Copy TP Command
@@ -47,6 +47,9 @@ config.enum.ommc.toolSwitchMode.Material=Material
 
 config.tab.ommc.toggles=Toggles
 config.tab.ommc.numerical=Numerical
+config.tab.ommc.press=Press
+config.tab.ommc.toggle=Toggle
+config.tab.ommc.inventory_tweaks=Inventory Tweaks
 
 config.value.comment.OhMyMiteClient=Some tweaks
 config.hotkey.comment.OhMyMiteClient=Some tweaks

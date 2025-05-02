@@ -2,34 +2,32 @@ package com.github.Debris.ommc.inventory.section;
 
 
 import com.github.Debris.ommc.inventory.InventoryUtil;
+import com.github.Debris.ommc.util.AccessorUtil;
 import net.minecraft.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class SectionIdentifier {
     private static final Logger LOGGER = LogManager.getLogger(SectionIdentifier.class);
+    private final SectionHandler sectionHandler;
 
-    private final IInventory iInventory;
-
-    public SectionIdentifier(IInventory iInventory) {
-        this.iInventory = iInventory;
+    public SectionIdentifier(SectionHandler sectionHandler) {
+        this.sectionHandler = sectionHandler;
     }
 
-    public void identify(
-//            Text title,
-            Container container, List<Slot> slotList) {
+    public void identify(@Nullable GuiContainer guiContainer, Container container, IInventory iInventory, List<Slot> slotList) {
         try {
-            this.identifyInternal(container, slotList);
+            this.identifyInternal(guiContainer, container, iInventory, slotList);
         } catch (Exception e) {
-            LOGGER.warn("error identifying container {}: {}", container, e);
+            LOGGER.warn("Error identifying container {}, stacktrace:", AccessorUtil.getTypeString(container), e);
+            this.handleUnidentified(createSection(slotList));
         }
     }
 
-    private void identifyInternal(
-//            Text title,
-            Container container, List<Slot> slotList) {
+    private void identifyInternal(@Nullable GuiContainer guiContainer, Container container, IInventory iInventory, List<Slot> slotList) {
 
         ContainerSection theWholeSection = createSection(slotList);
 
@@ -142,12 +140,15 @@ public class SectionIdentifier {
 //            putSection(EnumSection.CreativeTab, theWholeSection);
 //        }
 
-        SectionHandler.sectionMap.putIfAbsent(EnumSection.Other, theWholeSection);
-        SectionHandler.unIdentifiedSections.add(theWholeSection);
+        this.handleUnidentified(theWholeSection);
+    }
+
+    private void handleUnidentified(ContainerSection section) {
+        this.sectionHandler.handleUnidentified(section);
     }
 
     private ContainerSection createSection(List<Slot> slots) {
-        return new ContainerSection(this.iInventory, slots);
+        return new ContainerSection(slots);
     }
 
     private void putSection(EnumSection key, List<Slot> slots) {
@@ -155,10 +156,7 @@ public class SectionIdentifier {
     }
 
     private void putSection(EnumSection key, ContainerSection section) {
-        if (SectionHandler.sectionMap.containsKey(key)) {
-            LOGGER.warn("duplicate section for key {}: {} replacing {}", key, SectionHandler.sectionMap.get(key), section);
-        }
-        SectionHandler.sectionMap.put(key, section);
+        this.sectionHandler.putSection(key, section);
     }
 
 

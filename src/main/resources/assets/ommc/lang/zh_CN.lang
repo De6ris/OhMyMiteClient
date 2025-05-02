@@ -11,7 +11,7 @@ config.name.ommc.holdAttack=长按左键
 config.name.ommc.periodicAttack=周期性左键
 config.name.ommc.holdUse=长按右键
 config.name.ommc.periodicUse=周期性右键
-config.name.CancelEntityRender=取消渲染实体
+config.name.CullEntityRender=剔除实体渲染
 config.name.FastFlying=快速飞行
 
 config.name.CopyTP=复制tp坐标
@@ -47,6 +47,9 @@ config.enum.ommc.toolSwitchMode.Material=材料
 
 config.tab.ommc.toggles=功能切换
 config.tab.ommc.numerical=数值设置
+config.tab.ommc.press=按下
+config.tab.ommc.toggle=切换
+config.tab.ommc.inventory_tweaks=物品栏功能
 
 config.value.comment.OhMyMiteClient=一些生电功能
 config.hotkey.comment.OhMyMiteClient=一些生电功能

@@ -3,7 +3,7 @@ package com.github.Debris.ommc.inventory.section;
 import com.github.Debris.ommc.inventory.InventoryUtil;
 import com.github.Debris.ommc.util.ItemUtil;
 import com.google.common.collect.ImmutableList;
-import net.minecraft.IInventory;
+import net.minecraft.Item;
 import net.minecraft.ItemStack;
 import net.minecraft.Slot;
 
@@ -12,15 +12,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
-public record ContainerSection(IInventory inventory, List<Slot> slots) {
-    public boolean isInventoryHotBar() {
-        return InventoryUtil.isPlayerInventory(this.inventory) && this.slots.size() == 9;
-    }
-
-    public boolean isInventoryStorage() {
-        return InventoryUtil.isPlayerInventory(this.inventory) && this.slots.size() == 27;
-    }
+public record ContainerSection(List<Slot> slots) {
+    public static final ContainerSection EMPTY = new ContainerSection(List.of());
 
     public boolean hasSlot(Slot slot) {
         return this.slots.contains(slot);
@@ -28,10 +23,14 @@ public record ContainerSection(IInventory inventory, List<Slot> slots) {
 
     public int getLocalIndex(Slot slot) {
         for (int i = 0; i < this.slots.size(); i++) {
-            if (this.slots.get(i) == slot) return i;
+            if (getSlot(i) == slot) return i;
         }
         return 0;
     }
+
+//    public Slot getFirstSlot() {
+//        return this.slots.getFirst();
+//    }
 
     public Slot getSlot(int index) {
         return this.slots.get(index);
@@ -46,18 +45,26 @@ public record ContainerSection(IInventory inventory, List<Slot> slots) {
     }
 
     public int toGlobalIndex(int localIndex) {
-        return InventoryUtil.getSlotId(this.slots.get(localIndex));
+        return InventoryUtil.getSlotId(getSlot(localIndex));
     }
 
     public int toLocalIndex(int globalIndex) {
         for (int i = 0; i < this.slots.size(); i++) {
-            if (InventoryUtil.getSlotId(this.slots.get(i)) == globalIndex) return i;
+            if (InventoryUtil.getSlotId(getSlot(i)) == globalIndex) return i;
         }
         return 0;
     }
 
     public boolean isEmpty() {
         return this.slots.stream().noneMatch(Slot::getHasStack);
+    }
+
+    public boolean isFull() {
+        return this.slots.stream().allMatch(Slot::getHasStack);
+    }
+
+    public int size() {
+        return this.slots.size();
     }
 
     public Optional<Slot> getEmptySlot() {
@@ -88,8 +95,17 @@ public record ContainerSection(IInventory inventory, List<Slot> slots) {
         });
     }
 
-    public Optional<Slot> hasItem(ItemStack itemStack) {
+    public boolean hasItem(Item item) {
+        return this.slots.stream().anyMatch(x -> x.getHasStack() && x.getStack().getItem() == item);
+    }
+
+    public Optional<Slot> findItem(ItemStack itemStack) {
         return this.slots.stream().filter(x -> x.getHasStack() && ItemUtil.compareIDMeta(x.getStack(), itemStack))
+                .max(Comparator.comparingInt(slot -> slot.getStack().stackSize));
+    }
+
+    public Optional<Slot> findItem(Item item) {
+        return this.slots.stream().filter(x -> x.getHasStack() && x.getStack().getItem() == item)
                 .max(Comparator.comparingInt(slot -> slot.getStack().stackSize));
     }
 
@@ -106,30 +122,30 @@ public record ContainerSection(IInventory inventory, List<Slot> slots) {
     }
 
     public void mergeSlots() {
-        for (int i = this.slots.size() - 1; i >= 0; i--) {// inverse order reduce operations
-            Slot slot = slots.get(i);
-            if (i == 0) continue;// just skip the first slot
+        for (int i = this.slots.size() - 1; i >= 1; i--) {// inverse order reduce operations; skip first slot
+            Slot slot = getSlot(i);
             if (!slot.getHasStack()) continue;// skip those empty
             mergeSlotToPrevious(i, slot);
         }
     }
 
     private void mergeSlotToPrevious(int currentIndex, Slot currentSlot) {
+        InventoryUtil.leftClick(currentSlot);// pick up
         for (int i = 0; i < currentIndex; i++) {
-            Slot slot = this.slots.get(i);
-            if (slot.getHasStack() && InventoryUtil.canMergeSlot(slot, currentSlot)) {
-                InventoryUtil.leftClick(currentSlot);
+            Slot slot = getSlot(i);
+            if (slot.getHasStack() && ItemUtil.canMerge(slot.getStack(), InventoryUtil.getHeldStack())) {
                 InventoryUtil.leftClick(slot);
-                InventoryUtil.putHeldItemDown(this);
-//                ManyLib.logger.info("merging {} to {}", currentIndex, i);
-                return;
+                if (!InventoryUtil.isHoldingItem()) {
+                    return;
+                }
             }
         }
+        if (InventoryUtil.isHoldingItem()) InventoryUtil.putHeldItemDown(this);
     }
 
     public void fillBlanks() {
         for (int i = this.slots.size() - 1; i >= 0; i--) {// inverse order reduce operations
-            Slot slot = slots.get(i);
+            Slot slot = getSlot(i);
             if (i == 0) continue;// just skip the first slot
             if (!slot.getHasStack()) continue;// skip those empty
             this.moveToPreviousEmpty(i, slot);
@@ -138,7 +154,7 @@ public record ContainerSection(IInventory inventory, List<Slot> slots) {
 
     private void moveToPreviousEmpty(int currentIndex, Slot currentSlot) {
         for (int i = 0; i < currentIndex; i++) {
-            Slot slot = this.slots.get(i);
+            Slot slot = getSlot(i);
             if (!slot.getHasStack()) {
                 InventoryUtil.moveToEmpty(currentSlot, slot);
 //                ManyLib.logger.info("moving {} to empty {}", currentIndex, i);
@@ -147,19 +163,28 @@ public record ContainerSection(IInventory inventory, List<Slot> slots) {
         }
     }
 
-    public void predicateRun(Predicate<ItemStack> predicate, Consumer<Slot> runnable) {
-        for (Slot slot : this.slots) {
-            if (slot.getHasStack() && predicate.test(slot.getStack())) {
-                runnable.accept(slot);
-            }
-        }
+    public Stream<Slot> stream() {
+        return this.slots.stream();
     }
 
-    public void notEmptyRun(Consumer<Slot> runnable) {
+    public Stream<Slot> streamEmpty() {
+        return this.stream().filter(x -> !x.getHasStack());
+    }
+
+    public Stream<Slot> streamNotEmpty() {
+        return this.stream().filter(Slot::getHasStack);
+    }
+
+    /**
+     * Note that the empty slots are skipped.
+     */
+    public Stream<Slot> predicate(Predicate<ItemStack> predicate) {
+        return this.streamNotEmpty().filter(slot -> predicate.test(slot.getStack()));
+    }
+
+    public void allRun(Consumer<Slot> runnable) {
         for (Slot slot : this.slots) {
-            if (slot.getHasStack()) {
-                runnable.accept(slot);
-            }
+            runnable.accept(slot);
         }
     }
 
@@ -170,23 +195,41 @@ public record ContainerSection(IInventory inventory, List<Slot> slots) {
         }
     }
 
-    public ContainerSection mergeWith(ContainerSection other) {
-        if (this.inventory != other.inventory) {
-            throw new IllegalArgumentException();
+    public void notEmptyRun(Consumer<Slot> runnable) {
+        for (Slot slot : this.slots) {
+            if (slot.getHasStack()) runnable.accept(slot);
         }
+    }
+
+    /**
+     * Note that the empty slots are skipped.
+     */
+    public void predicateRun(Predicate<ItemStack> predicate, Consumer<Slot> runnable) {
+        for (Slot slot : this.slots) {
+            if (slot.getHasStack() && predicate.test(slot.getStack())) runnable.accept(slot);
+        }
+    }
+
+    public ContainerSection mergeWith(ContainerSection other) {
         ImmutableList.Builder<Slot> builder = ImmutableList.builder();
         builder.addAll(this.slots);
         builder.addAll(other.slots);
-        return new ContainerSection(this.inventory, builder.build());
+        return new ContainerSection(builder.build());
     }
 
+    public boolean isOf(EnumSection section) {
+        if (SectionHandler.hasSection(section)) {
+            return SectionHandler.getSection(section) == this;
+        }
+        return false;
+    }
 
     public ContainerSection subSection(int fromIndex, int toIndex) {
-        return new ContainerSection(this.inventory, this.slots.subList(fromIndex, toIndex));
+        return new ContainerSection(this.slots.subList(fromIndex, toIndex));
     }
 
     @Override
     public String toString() {
-        return "ContainerSection[inventory=" + inventory.toString() + ", slots=" + slots.toString() + "]";
+        return "ContainerSection[slots=" + slots.toString() + "]";
     }
 }

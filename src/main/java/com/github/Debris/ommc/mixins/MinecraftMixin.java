@@ -1,7 +1,7 @@
 package com.github.Debris.ommc.mixins;
 
 import com.github.Debris.ommc.config.OMMCConfig;
-import com.github.Debris.ommc.util.InventoryHandler;
+import com.github.Debris.ommc.feat.ItemSwitch;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.Minecraft;
 import net.minecraft.PlayerControllerMP;
@@ -21,13 +21,13 @@ public abstract class MinecraftMixin {
     @Inject(method = "tryClickEntity", at = @At("HEAD"))
     private void switchWeapon(int button, CallbackInfoReturnable<Boolean> cir) {
         if (!OMMCConfig.WeaponSwitch.getBooleanValue() || this.playerController.isInCreativeMode()) return;
-        InventoryHandler.trySwitchToolOrWeapon(false);
+        ItemSwitch.trySwitchToolOrWeapon(false);
     }
 
     @Inject(method = "sendClickBlockToController", at = @At(value = "FIELD", target = "Lnet/minecraft/RaycastCollision;block_hit_x:I", opcode = Opcodes.GETFIELD, ordinal = 0))
     private void switchTool(int par1, boolean par2, CallbackInfo ci) {
         if (!OMMCConfig.ToolSwitch.getBooleanValue() || this.playerController.isInCreativeMode()) return;
-        InventoryHandler.trySwitchToolOrWeapon(true);
+        ItemSwitch.trySwitchToolOrWeapon(true);
     }
 
     @ModifyReturnValue(method = "inDevMode", at = @At("RETURN"))

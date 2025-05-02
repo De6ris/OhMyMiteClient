@@ -53,7 +53,7 @@ public enum EnumSection {
     FakePlayerEnderChestActions,
     FakePlayerEnderChestInventory,
 
-    Other,
+    Unidentified,
     ;
 
     public ContainerSection get() {

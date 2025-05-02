@@ -10,6 +10,7 @@
   "mixins": [
     "MinecraftMixin",
     "PlayerControllerMixin",
+    "container.ContainerMixin",
     "container.MITEContainerCraftingMixin",
     "container.SlotCraftingMixin",
     "container.SlotMixin",

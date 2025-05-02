@@ -1,7 +1,7 @@
 package com.github.Debris.ommc.config;
 
-import com.github.Debris.ommc.inventory.InventoryTweaks;
-import com.github.Debris.ommc.util.InventoryHandler;
+import com.github.Debris.ommc.feat.SortInventory;
+import com.github.Debris.ommc.feat.TradingRestock;
 import com.github.Debris.ommc.util.Misc;
 import fi.dy.masa.malilib.config.interfaces.IValueChangeCallback;
 import fi.dy.masa.malilib.config.options.ConfigHotkey;
@@ -42,16 +42,16 @@ public class Callbacks {
         });
 
         OMMCConfig.SortItem.getKeybind().setCallback((keyAction, iKeybind) -> {
-            if (OMMCConfig.InventoryTweaks.getBooleanValue() && Minecraft.getMinecraft().currentScreen instanceof GuiContainer) {
+            if (OMMCConfig.ShouldTweakInventory.getBooleanValue() && Minecraft.getMinecraft().currentScreen instanceof GuiContainer) {
                 minecraft.sndManager.playSoundFX("random.click", 1.0f, 1.0f);
-                return InventoryTweaks.trySort();
+                return SortInventory.trySort();
             }
             return false;
         });
 
         OMMCConfig.TradingRestock.getKeybind().setCallback((keyAction, iKeybind) -> {
-            if (OMMCConfig.InventoryTweaks.getBooleanValue() && Minecraft.getMinecraft().currentScreen instanceof GuiMerchant guiMerchant) {
-                InventoryHandler.tryTradingRestock(guiMerchant);
+            if (OMMCConfig.ShouldTweakInventory.getBooleanValue() && Minecraft.getMinecraft().currentScreen instanceof GuiMerchant guiMerchant) {
+                TradingRestock.tryTradingRestock(guiMerchant);
                 minecraft.sndManager.playSoundFX("random.click", 1.0f, 1.0f);
                 return true;
             }
