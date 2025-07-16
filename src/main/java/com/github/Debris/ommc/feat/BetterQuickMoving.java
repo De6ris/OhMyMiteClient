@@ -1,6 +1,6 @@
 package com.github.Debris.ommc.feat;
 
-import com.github.Debris.ommc.config.OMMCConfig;
+import com.github.Debris.ommc.config.InventoryConfig;
 import com.github.Debris.ommc.inventory.InventoryTweaks;
 import com.github.Debris.ommc.inventory.InventoryUtil;
 import com.github.Debris.ommc.inventory.section.ContainerSection;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class BetterQuickMoving {
     public static void onQuickMove(int index, int button) {
-        if (button == 0 && InventoryTweaks.isActive() && OMMCConfig.BetterQuickMoving.getBooleanValue()) {
+        if (button == 0 && InventoryTweaks.isActive() && InventoryConfig.BetterQuickMoving.getBooleanValue()) {
 
             GuiContainer guiContainer = InventoryUtil.getGuiContainer();
             Slot slot = InventoryUtil.getSlots().get(index);

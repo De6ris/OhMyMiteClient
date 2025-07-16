@@ -218,10 +218,7 @@ public record ContainerSection(List<Slot> slots) {
     }
 
     public boolean isOf(EnumSection section) {
-        if (SectionHandler.hasSection(section)) {
-            return SectionHandler.getSection(section) == this;
-        }
-        return false;
+        return SectionHandler.hasSection(section) && SectionHandler.getSection(section) == this;
     }
 
     public ContainerSection subSection(int fromIndex, int toIndex) {

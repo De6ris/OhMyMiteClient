@@ -1,6 +1,6 @@
 //package com.github.Debris.ommc.mixins;
 //
-//import com.github.Debris.ommc.tickHandler.TestTicker;
+//import com.github.Debris.ommc.event.tick.TestTicker;
 //import net.minecraft.ChunkProviderUnderworld;
 //import net.minecraft.IChunkProvider;
 //import net.minecraft.World;

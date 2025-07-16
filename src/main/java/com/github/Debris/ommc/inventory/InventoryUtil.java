@@ -223,7 +223,7 @@ public class InventoryUtil {
     }
 
     public static boolean isPlayerInventory(IInventory inventory) {
-        return inventory == getPlayerInventory();
+        return inventory instanceof InventoryPlayer;
     }
 
 }

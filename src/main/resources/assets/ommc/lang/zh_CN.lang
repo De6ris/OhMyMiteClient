@@ -20,9 +20,6 @@ config.comment.CopyTP=按下后复制到剪贴板
 config.name.ToggleGameMode=切换游戏模式
 config.comment.ToggleGameMode=在生存和创造之间切换
 
-config.name.EnchantmentPreview=预测附魔
-config.comment.EnchantmentPreview=(双端功能)在附魔台上操作物品时, 在聊天栏输出附魔结果
-
 config.name.AutoCrafting=自动合成
 config.name.ToolSwitch=工具自动切换
 config.name.WeaponSwitch=武器自动切换
@@ -39,11 +36,19 @@ config.name.FlySpeedVertical=垂直飞行速度
 config.name.OverrideUseInterval=覆写右键间隔
 config.comment.OverrideUseInterval=单位毫秒
 
-config.name.ommc.toolSwitchMode=工具切换模式
+config.name.ommc.tool_switch_mode=工具切换模式
 
-config.enum.ommc.toolSwitchMode.Order=顺序
-config.enum.ommc.toolSwitchMode.Durability=剩余耐久
-config.enum.ommc.toolSwitchMode.Material=材料
+config.enum.ommc.tool_switch_mode.Order=顺序
+config.enum.ommc.tool_switch_mode.Durability=剩余耐久
+config.enum.ommc.tool_switch_mode.Material=材料
+
+config.name.ommc.item_sorting_order=物品整理顺序
+
+config.enum.ommc.item_sorting_order.CREATIVE_INVENTORY=创造模式物品栏
+config.enum.ommc.item_sorting_order.ITEM_ID=物品Id
+config.enum.ommc.item_sorting_order.TRANSLATION_KEY=翻译键
+config.enum.ommc.item_sorting_order.TRANSLATION_RESULT=翻译结果
+config.enum.ommc.item_sorting_order.PINYIN=拼音
 
 config.tab.ommc.toggles=功能切换
 config.tab.ommc.numerical=数值设置

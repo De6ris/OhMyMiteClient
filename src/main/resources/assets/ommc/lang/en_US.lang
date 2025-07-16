@@ -20,9 +20,6 @@ config.comment.CopyTP=Once pressed, copy tp command to clipboard
 config.name.ToggleGameMode=Toggle Game Mode
 config.comment.ToggleGameMode=Toggle between survival and creative
 
-config.name.EnchantmentPreview=Enchantment Preview
-config.comment.EnchantmentPreview=(Two-sided)Operate items on the enchanting table\n and you will receive the results at chat
-
 config.name.AutoCrafting=Auto Crafting
 config.name.ToolSwitch=Tool Switch
 config.name.WeaponSwitch=Weapon Switch
@@ -39,11 +36,19 @@ config.name.FlySpeedVertical=Fly Speed Vertical
 config.name.OverrideUseInterval=Override Use Interval
 config.comment.OverrideUseInterval=In milliseconds
 
-config.name.ommc.toolSwitchMode=Tool Switch Mode
+config.name.ommc.tool_switch_mode=Tool Switch Mode
 
-config.enum.ommc.toolSwitchMode.Order=Order
-config.enum.ommc.toolSwitchMode.Durability=Durability Remained
-config.enum.ommc.toolSwitchMode.Material=Material
+config.enum.ommc.tool_switch_mode.Order=Order
+config.enum.ommc.tool_switch_mode.Durability=Durability Remained
+config.enum.ommc.tool_switch_mode.Material=Material
+
+config.name.ommc.item_sorting_order=Item Sorting Order
+
+config.enum.ommc.item_sorting_order.CREATIVE_INVENTORY=Creative Inventory
+config.enum.ommc.item_sorting_order.ITEM_ID=Item Id
+config.enum.ommc.item_sorting_order.TRANSLATION_KEY=Translation Key
+config.enum.ommc.item_sorting_order.TRANSLATION_RESULT=Translation Result
+config.enum.ommc.item_sorting_order.PINYIN=Pinyin
 
 config.tab.ommc.toggles=Toggles
 config.tab.ommc.numerical=Numerical

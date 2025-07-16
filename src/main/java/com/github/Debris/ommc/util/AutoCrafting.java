@@ -1,10 +1,10 @@
 package com.github.Debris.ommc.util;
 
+import com.github.Debris.ommc.event.tick.TaskManager;
 import com.github.Debris.ommc.inventory.section.ContainerSection;
 import com.github.Debris.ommc.inventory.section.EnumSection;
 import com.github.Debris.ommc.task.ClickCraftTask;
 import com.github.Debris.ommc.task.SupplyTask;
-import com.github.Debris.ommc.tickHandler.TaskManager;
 import net.minecraft.ItemStack;
 import net.minecraft.Slot;
 

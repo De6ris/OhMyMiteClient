@@ -1,6 +1,6 @@
 package com.github.Debris.ommc.mixins.movement;
 
-import com.github.Debris.ommc.config.OMMCConfig;
+import com.github.Debris.ommc.config.MainConfig;
 import net.minecraft.PlayerCapabilities;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class PlayerAbilitiesMixin {
     @Inject(method = "getFlySpeed", at = @At("HEAD"), cancellable = true)
     private void inject(CallbackInfoReturnable<Float> cir) {
-        float overrideSpeed = OMMCConfig.FastFlying.isOn() ? (float) OMMCConfig.FlySpeedLevel.getDoubleValue() : 0.05F;
+        float overrideSpeed = MainConfig.FastFlying.isOn() ? (float) MainConfig.FlySpeedLevel.getDoubleValue() : 0.05F;
         cir.setReturnValue(overrideSpeed);
     }
 }

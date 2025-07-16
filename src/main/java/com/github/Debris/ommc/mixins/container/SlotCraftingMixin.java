@@ -1,6 +1,6 @@
 package com.github.Debris.ommc.mixins.container;
 
-import com.github.Debris.ommc.config.OMMCConfig;
+import com.github.Debris.ommc.config.InventoryConfig;
 import com.github.Debris.ommc.util.AutoCrafting;
 import net.minecraft.*;
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,6 +41,6 @@ public abstract class SlotCraftingMixin extends Slot {
 
     @Unique
     private boolean shouldAutoCraft() {
-        return this.thePlayer.onClient() && OMMCConfig.AutoCrafting.getBooleanValue() && Minecraft.getMinecraft().currentScreen instanceof GuiCrafting;
+        return this.thePlayer.onClient() && InventoryConfig.AutoCrafting.getBooleanValue() && Minecraft.getMinecraft().currentScreen instanceof GuiCrafting;
     }
 }

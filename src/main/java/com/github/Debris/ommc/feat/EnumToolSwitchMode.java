@@ -1,4 +1,4 @@
-package com.github.Debris.ommc.config;
+package com.github.Debris.ommc.feat;
 
 public enum EnumToolSwitchMode {
     Order,

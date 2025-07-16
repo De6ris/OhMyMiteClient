@@ -2,7 +2,9 @@ package com.github.Debris.ommc.config;
 
 import com.github.Debris.ommc.feat.SortInventory;
 import com.github.Debris.ommc.feat.TradingRestock;
+import com.github.Debris.ommc.inventory.InventoryTweaks;
 import com.github.Debris.ommc.util.Misc;
+import com.github.Debris.ommc.util.Predicates;
 import fi.dy.masa.malilib.config.interfaces.IValueChangeCallback;
 import fi.dy.masa.malilib.config.options.ConfigHotkey;
 import fi.dy.masa.malilib.config.options.ConfigToggle;
@@ -11,51 +13,62 @@ import net.minecraft.*;
 
 public class Callbacks {
 
-    public static void init(Minecraft minecraft) {
-        OMMCConfig.OpenWindow.getKeybind().setCallback((keyAction, iKeybind) -> {
-            Minecraft.getMinecraft().displayGuiScreen(OMMCConfig.getInstance().getConfigScreen(null));
+    public static void init(Minecraft client) {
+        MainConfig.OpenWindow.getKeybind().setCallback((keyAction, iKeybind) -> {
+            Minecraft.getMinecraft().displayGuiScreen(MainConfig.getInstance().getConfigScreen(null));
             return true;
         });
 
-        OMMCConfig.HoldUse.setValueChangeCallback(new FeatureCallbackHold(minecraft.gameSettings.keyBindUseItem));
-        OMMCConfig.HoldAttack.setValueChangeCallback(new FeatureCallbackHold(minecraft.gameSettings.keyBindAttack));
+        MainConfig.OpenModule_Inventory.getKeybind().setCallback((keyAction, iKeybind) -> {
+            Minecraft.getMinecraft().displayGuiScreen(InventoryConfig.getInstance().getConfigScreen(null));
+            return true;
+        });
 
-        OMMCConfig.CopyTP.getKeybind().setCallback((keyAction, iKeybind) -> {
-            Misc.copyToClipboard("/tp " + minecraft.thePlayer.posX + " " + minecraft.thePlayer.posY + " " + minecraft.thePlayer.posZ);
+        MainConfig.HoldUse.setValueChangeCallback(new FeatureCallbackHold(client.gameSettings.keyBindUseItem));
+        MainConfig.HoldAttack.setValueChangeCallback(new FeatureCallbackHold(client.gameSettings.keyBindAttack));
+
+        MainConfig.CopyTP.getKeybind().setCallback((keyAction, iKeybind) -> {
+            Misc.copyToClipboard("/tp " + client.thePlayer.posX + " " + client.thePlayer.posY + " " + client.thePlayer.posZ);
             RenderUtils.setGuiIngameInfo(I18n.getString("ommc.CopyTP.success"));
             return true;
         });
-        OMMCConfig.ToggleGameMode.getKeybind().setCallback((keyAction, iKeybind) -> {
+        MainConfig.ToggleGameMode.getKeybind().setCallback((keyAction, iKeybind) -> {
             if (Minecraft.inDevMode()) {
-                minecraft.thePlayer.sendChatMessage("/gamemode " + ((minecraft.thePlayer).isPlayerInCreative() ? 0 : 1));
+                client.thePlayer.sendChatMessage("/gamemode " + ((client.thePlayer).isPlayerInCreative() ? 0 : 1));
             } else {
                 RenderUtils.setGuiIngameInfo(I18n.getString("ommc.toggleGameMode.fail"));
             }
             return true;
         });
-        OMMCConfig.GammaOverride.setValueChangeCallback(configBoolean -> minecraft.gameSettings.gammaSetting = configBoolean.getBooleanValue() ? 15.0F : 1.0F);
-        OMMCConfig.Test.getKeybind().setCallback((keyAction, iKeybind) -> {
+        MainConfig.GammaOverride.setValueChangeCallback(configBoolean -> client.gameSettings.gammaSetting = configBoolean.getBooleanValue() ? 15.0F : 1.0F);
+        MainConfig.Test.getKeybind().setCallback((keyAction, iKeybind) -> {
             ItemStack itemStack = new ItemStack(Block.anvilAdamantium);
-            minecraft.getNetHandler().addToSendQueue(new Packet5PlayerInventory(minecraft.thePlayer.entityId, minecraft.thePlayer.inventory.currentItem, itemStack));
+            client.getNetHandler().addToSendQueue(new Packet5PlayerInventory(client.thePlayer.entityId, client.thePlayer.inventory.currentItem, itemStack));
             RenderUtils.setGuiIngameInfo("已发包");
             return true;
         });
 
-        OMMCConfig.SortItem.getKeybind().setCallback((keyAction, iKeybind) -> {
-            if (OMMCConfig.ShouldTweakInventory.getBooleanValue() && Minecraft.getMinecraft().currentScreen instanceof GuiContainer) {
-                minecraft.sndManager.playSoundFX("random.click", 1.0f, 1.0f);
-                return SortInventory.trySort();
+        InventoryConfig.SortItem.getKeybind().setCallback((keyAction, iKeybind) -> {
+            if (!InventoryTweaks.isActive()) return false;
+            if (Predicates.notInGuiContainer(client)) return false;
+            client.sndManager.playSoundFX("random.click", 1.0f, 1.0f);
+            return SortInventory.trySort();
+        });
+
+        InventoryConfig.TradingRestock.getKeybind().setCallback((keyAction, iKeybind) -> {
+            if (!InventoryTweaks.isActive()) return false;
+            if (Minecraft.getMinecraft().currentScreen instanceof GuiMerchant guiMerchant) {
+                TradingRestock.tryTradingRestock(guiMerchant);
+                client.sndManager.playSoundFX("random.click", 1.0f, 1.0f);
+                return true;
             }
             return false;
         });
 
-        OMMCConfig.TradingRestock.getKeybind().setCallback((keyAction, iKeybind) -> {
-            if (OMMCConfig.ShouldTweakInventory.getBooleanValue() && Minecraft.getMinecraft().currentScreen instanceof GuiMerchant guiMerchant) {
-                TradingRestock.tryTradingRestock(guiMerchant);
-                minecraft.sndManager.playSoundFX("random.click", 1.0f, 1.0f);
-                return true;
-            }
-            return false;
+        InventoryConfig.ThrowSection.getKeybind().setCallback((keyAction, iKeybind) -> {
+            if (!InventoryTweaks.isActive()) return false;
+            if (Predicates.notInGuiContainer(client)) return false;
+            return InventoryTweaks.tryThrowSection();
         });
     }
 

@@ -1,14 +1,14 @@
-package com.github.Debris.ommc.config;
+package com.github.Debris.ommc.config.options;
 
 import fi.dy.masa.malilib.config.options.ConfigBoolean;
 import fi.dy.masa.malilib.util.Color4f;
 import net.minecraft.EnumChatFormatting;
 import net.xiaoyu233.fml.FishModLoader;
 
-public class ConfigBooleanWithPre extends ConfigBoolean {
+public class ConfigBooleanWithDependency extends ConfigBoolean {
     private final String modId;
 
-    public ConfigBooleanWithPre(String name, String modId, String comment) {
+    public ConfigBooleanWithDependency(String name, String modId, String comment) {
         super(name, comment);
         this.modId = modId;
     }

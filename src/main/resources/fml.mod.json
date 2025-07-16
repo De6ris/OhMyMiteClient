@@ -14,7 +14,7 @@
     "Debris"
   ],
   "entrypoints": {
-    "main": [
+    "client": [
       "com.github.Debris.ommc.OhMyMiteClient"
     ],
     "modmenu": [

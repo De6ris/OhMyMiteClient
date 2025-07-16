@@ -1,8 +1,8 @@
 package com.github.Debris.ommc.event;
 
-import com.github.Debris.ommc.tickHandler.ClickManager;
-import com.github.Debris.ommc.tickHandler.QuitGameManager;
-import com.github.Debris.ommc.tickHandler.TaskManager;
+import com.github.Debris.ommc.event.tick.ClickManager;
+import com.github.Debris.ommc.event.tick.QuitGameManager;
+import com.github.Debris.ommc.event.tick.TaskManager;
 import fi.dy.masa.malilib.interfaces.IClientTickHandler;
 import net.minecraft.Minecraft;
 

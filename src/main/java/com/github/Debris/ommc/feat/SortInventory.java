@@ -33,7 +33,7 @@ public class SortInventory {
 
     private static boolean shouldSort(ContainerSection section) {
         for (EnumSection enumSection : SortBlackList) {
-            if (enumSection.isOf(section)) return false;
+            if (section.isOf(enumSection)) return false;
         }
         return true;
     }

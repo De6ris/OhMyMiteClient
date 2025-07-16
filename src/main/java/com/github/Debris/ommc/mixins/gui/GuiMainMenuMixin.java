@@ -1,6 +1,6 @@
 package com.github.Debris.ommc.mixins.gui;
 
-import com.github.Debris.ommc.tickHandler.QuitGameManager;
+import com.github.Debris.ommc.event.tick.QuitGameManager;
 import fi.dy.masa.malilib.gui.DrawContext;
 import fi.dy.masa.malilib.render.RenderUtils;
 import net.minecraft.GuiMainMenu;

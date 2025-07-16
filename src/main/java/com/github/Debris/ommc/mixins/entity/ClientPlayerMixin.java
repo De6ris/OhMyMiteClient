@@ -1,6 +1,6 @@
 package com.github.Debris.ommc.mixins.entity;
 
-import com.github.Debris.ommc.config.OMMCConfig;
+import com.github.Debris.ommc.config.MainConfig;
 import net.minecraft.AbstractClientPlayer;
 import net.minecraft.ClientPlayer;
 import net.minecraft.MovementInput;
@@ -22,12 +22,12 @@ public abstract class ClientPlayerMixin extends AbstractClientPlayer {
 
     @Inject(method = "onLivingUpdate", at = @At("TAIL"))
     private void inject(CallbackInfo ci) {
-        if (this.capabilities.isFlying && OMMCConfig.FastFlying.isOn()) {
+        if (this.capabilities.isFlying && MainConfig.FastFlying.isOn()) {
             if (this.movementInput.sneak) {
-                this.motionY -= OMMCConfig.FlySpeedVertical.getDoubleValue();
+                this.motionY -= MainConfig.FlySpeedVertical.getDoubleValue();
             }
             if (this.movementInput.jump) {
-                this.motionY += OMMCConfig.FlySpeedVertical.getDoubleValue();
+                this.motionY += MainConfig.FlySpeedVertical.getDoubleValue();
             }
         }
     }

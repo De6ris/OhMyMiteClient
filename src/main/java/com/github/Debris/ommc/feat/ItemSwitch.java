@@ -1,6 +1,6 @@
 package com.github.Debris.ommc.feat;
 
-import com.github.Debris.ommc.config.OMMCConfig;
+import com.github.Debris.ommc.config.InventoryConfig;
 import net.minecraft.*;
 
 public class ItemSwitch {
@@ -34,7 +34,7 @@ public class ItemSwitch {
     }
 
     private static int getSuitableToolIndex(ItemStack[] mainInventory, Block block, int metadata) {
-        switch (OMMCConfig.ToolSwitchMode.getEnumValue()) {
+        switch (InventoryConfig.ToolSwitchMode.getEnumValue()) {
             case Order -> {
                 for (int i = 0; i < 36; i++) {
                     if (mainInventory[i] == null) continue;

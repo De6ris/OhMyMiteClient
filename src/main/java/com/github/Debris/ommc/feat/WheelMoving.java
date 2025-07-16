@@ -1,6 +1,6 @@
 package com.github.Debris.ommc.feat;
 
-import com.github.Debris.ommc.config.OMMCConfig;
+import com.github.Debris.ommc.config.InventoryConfig;
 import com.github.Debris.ommc.inventory.InventoryUtil;
 import com.github.Debris.ommc.inventory.section.ContainerSection;
 import com.github.Debris.ommc.inventory.section.EnumSection;
@@ -17,7 +17,7 @@ public class WheelMoving {
         int wheelStatus = Mouse.getDWheel();
         if (wheelStatus == 0) return;
         boolean scrollDown = wheelStatus < 0;
-        if (OMMCConfig.WheelMovingInvert.getBooleanValue()) scrollDown = !scrollDown;
+        if (InventoryConfig.WheelMovingInvert.getBooleanValue()) scrollDown = !scrollDown;
 
         ContainerSection playerStorage = EnumSection.InventoryStorage.get();
         if (playerStorage == null) return;

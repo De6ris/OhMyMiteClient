@@ -1,6 +1,6 @@
-package com.github.Debris.ommc.tickHandler;
+package com.github.Debris.ommc.event.tick;
 
-import com.github.Debris.ommc.config.OMMCConfig;
+import com.github.Debris.ommc.config.MainConfig;
 import fi.dy.masa.malilib.interfaces.IClientTickHandler;
 import net.minecraft.Minecraft;
 
@@ -16,16 +16,16 @@ public class ClickManager implements IClientTickHandler {
     @Override
     public void onClientTick(Minecraft mc) {
         if (mc.theWorld == null) return;
-        if (OMMCConfig.PeriodicAttack.isOn()) {
+        if (MainConfig.PeriodicAttack.isOn()) {
             this.periodicAttack(mc);
         }
-        if (OMMCConfig.PeriodicUse.isOn()) {
+        if (MainConfig.PeriodicUse.isOn()) {
             this.periodicUse(mc);
         }
     }
 
     private void periodicAttack(Minecraft mc) {
-        if (this.leftClickCounter >= OMMCConfig.PeriodicAttackInterval.getIntegerValue()) {
+        if (this.leftClickCounter >= MainConfig.PeriodicAttackInterval.getIntegerValue()) {
             this.leftClick(mc);
             this.leftClickCounter = 0;
         } else {
@@ -34,7 +34,7 @@ public class ClickManager implements IClientTickHandler {
     }
 
     private void periodicUse(Minecraft mc) {
-        if (this.rightClickCounter >= OMMCConfig.PeriodicUseInterval.getIntegerValue()) {
+        if (this.rightClickCounter >= MainConfig.PeriodicUseInterval.getIntegerValue()) {
             this.rightClick(mc);
             this.rightClickCounter = 0;
         } else {

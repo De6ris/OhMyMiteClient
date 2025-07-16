@@ -1,4 +1,4 @@
-package com.github.Debris.ommc.tickHandler;
+package com.github.Debris.ommc.event.tick;
 
 import fi.dy.masa.malilib.interfaces.IClientTickHandler;
 import net.minecraft.Block;

@@ -1,6 +1,6 @@
-package com.github.Debris.ommc.tickHandler;
+package com.github.Debris.ommc.event.tick;
 
-import com.github.Debris.ommc.config.OMMCConfig;
+import com.github.Debris.ommc.config.MainConfig;
 import com.github.Debris.ommc.task.ClickQuitTask;
 import fi.dy.masa.malilib.interfaces.IClientTickHandler;
 import net.minecraft.Minecraft;
@@ -10,14 +10,14 @@ public class QuitGameManager implements IClientTickHandler {
     private boolean drawn;
     private float healthBefore = Float.MAX_VALUE;
 
-    private int nextQuitCounter = OMMCConfig.QuitGameCounter.getIntegerValue() * 20;
+    private int nextQuitCounter = MainConfig.QuitGameCounter.getIntegerValue() * 20;
 
     public static QuitGameManager getInstance() {
         return Instance;
     }
 
     public boolean shouldDrawTip() {
-        return this.nextQuitCounter < OMMCConfig.QuitGameCounter.getIntegerValue() * 20 && !this.drawn;
+        return this.nextQuitCounter < MainConfig.QuitGameCounter.getIntegerValue() * 20 && !this.drawn;
     }
 
     public void markAsDrawn() {
@@ -25,13 +25,13 @@ public class QuitGameManager implements IClientTickHandler {
     }
 
     public int getSeconds() {
-        return OMMCConfig.QuitGameCounter.getIntegerValue() - (this.nextQuitCounter / 20);
+        return MainConfig.QuitGameCounter.getIntegerValue() - (this.nextQuitCounter / 20);
     }
 
     private void checkDanger(Minecraft minecraftClient, float healthNow) {
-        if (healthNow <= OMMCConfig.QuitGameThreshold.getDoubleValue() && OMMCConfig.AutoQuitGame.getBooleanValue() && this.nextQuitCounter >= OMMCConfig.QuitGameCounter.getIntegerValue() * 20) {
+        if (healthNow <= MainConfig.QuitGameThreshold.getDoubleValue() && MainConfig.AutoQuitGame.getBooleanValue() && this.nextQuitCounter >= MainConfig.QuitGameCounter.getIntegerValue() * 20) {
             minecraftClient.displayInGameMenu();
-            TaskManager.getInstance().addTimedTask(new ClickQuitTask(OMMCConfig.QuitGameSpeed.getIntegerValue()));
+            TaskManager.getInstance().addTimedTask(new ClickQuitTask(MainConfig.QuitGameSpeed.getIntegerValue()));
             this.nextQuitCounter = 0;
         }
     }

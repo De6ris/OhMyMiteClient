@@ -1,6 +1,7 @@
 package com.github.Debris.ommc.mixins.gui;
 
-import com.github.Debris.ommc.config.OMMCConfig;
+import com.github.Debris.ommc.config.InventoryConfig;
+import com.github.Debris.ommc.config.MainConfig;
 import com.github.Debris.ommc.inventory.InventoryTweaks;
 import com.github.Debris.ommc.inventory.InventoryUtil;
 import com.github.Debris.ommc.inventory.section.SectionHandler;
@@ -21,11 +22,6 @@ public abstract class GuiContainerMixin extends GuiScreen {
     @Shadow
     public Slot theSlot;
 
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void onInit(CallbackInfo ci) {
-        SectionHandler.updateSection((GuiContainer) (Object) this);
-    }
-
     @Inject(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/GuiScreen;mouseClicked(III)V", shift = At.Shift.AFTER), cancellable = true)
     private void preTricks(int par1, int par2, int button, CallbackInfo ci) {
         if (button == 0 && InventoryTweaks.shouldCancelLeftClick(this.theSlot)) {
@@ -42,14 +38,14 @@ public abstract class GuiContainerMixin extends GuiScreen {
     @Inject(method = "keyTyped", at = @At("HEAD"))
     private void dropAll(char par1, int par2, CallbackInfo ci) {
         Slot mouseOver = this.theSlot;
-        if (InventoryTweaks.shouldDoTrick(mouseOver) && OMMCConfig.DropSimilar.getKeybind().isKeybindHeld()) {
+        if (InventoryTweaks.shouldDoTrick(mouseOver) && InventoryConfig.DropSimilar.getKeybind().isKeybindHeld()) {
             SectionHandler.getSection(mouseOver).predicateRun(ItemUtil.predicateIDMeta(mouseOver.getStack()), InventoryUtil::dropStack);
         }
     }
 
     @ModifyConstant(method = "onGuiClosed", constant = @Constant(longValue = 1000L))
     private long removeCD(long constant) {
-        if (OMMCConfig.RemoveGuiContainerCD.getBooleanValue()) {
+        if (MainConfig.RemoveGuiContainerCD.getBooleanValue()) {
             return 0L;
         } else {
             return constant;

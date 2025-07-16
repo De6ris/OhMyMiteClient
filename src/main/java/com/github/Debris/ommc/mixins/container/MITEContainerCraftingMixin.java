@@ -1,6 +1,6 @@
 package com.github.Debris.ommc.mixins.container;
 
-import com.github.Debris.ommc.config.OMMCConfig;
+import com.github.Debris.ommc.config.MainConfig;
 import net.minecraft.Container;
 import net.minecraft.EntityClientPlayerMP;
 import net.minecraft.EntityPlayer;
@@ -18,7 +18,7 @@ public abstract class MITEContainerCraftingMixin extends Container {
 
     @Inject(method = "onUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/EntityClientPlayerMP;hasFoodEnergy()Z", ordinal = 1))
     private void test(CallbackInfo ci) {
-        if (!OMMCConfig.InstantCrafting.getBooleanValue()) return;
+        if (!MainConfig.InstantCrafting.getBooleanValue()) return;
         EntityClientPlayerMP player = (EntityClientPlayerMP) this.player;
         player.crafting_ticks = player.crafting_period;
     }

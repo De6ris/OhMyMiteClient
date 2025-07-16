@@ -1,6 +1,6 @@
-package com.github.Debris.ommc.tickHandler;
+package com.github.Debris.ommc.event.tick;
 
-import com.github.Debris.ommc.config.OMMCConfig;
+import com.github.Debris.ommc.config.MainConfig;
 import com.github.Debris.ommc.task.AbstractTimedTask;
 import com.github.Debris.ommc.task.ClientTask;
 import fi.dy.masa.malilib.interfaces.IClientTickHandler;
@@ -35,7 +35,7 @@ public class TaskManager implements IClientTickHandler {
 
     @Override
     public void onClientTick(Minecraft mc) {
-        for (int i = 0; i < OMMCConfig.TasksPerTick.getIntegerValue(); i++) {
+        for (int i = 0; i < MainConfig.TasksPerTick.getIntegerValue(); i++) {
             ClientTask<?> poll = this.taskQueue.poll();
             if (poll != null && poll.shouldExecute(mc)) {
                 poll.execute(mc);

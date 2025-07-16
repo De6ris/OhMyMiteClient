@@ -1,11 +1,9 @@
 package com.github.Debris.ommc.inventory.section;
 
 import com.github.Debris.ommc.inventory.InventoryUtil;
+import fi.dy.masa.malilib.util.GuiUtils;
 import moddedmite.rustedironcore.api.util.LogUtil;
-import net.minecraft.Container;
-import net.minecraft.GuiContainer;
-import net.minecraft.IInventory;
-import net.minecraft.Slot;
+import net.minecraft.*;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
@@ -62,12 +60,19 @@ public class SectionHandler {
     }
 
     public static SectionHandler getSectionHandler() {
-        SectionHandler sectionHandler = ((IContainer) InventoryUtil.getCurrentContainer()).dc$getSectionHandler();
-        if (sectionHandler == null) {
-            LOGGER.warn("section handler not set for container {}", InventoryUtil.getCurrentContainer());
-            return ((IContainer) InventoryUtil.getInventoryContainer()).dc$getSectionHandler();
+        Container container = InventoryUtil.getCurrentContainer();
+        SectionHandler sectionHandler = ((IContainer) container).dc$getSectionHandler();
+        if (sectionHandler != null) return sectionHandler;
+
+        GuiScreen screen = GuiUtils.getCurrentScreen();
+        if (!(screen instanceof GuiContainer guiContainer)) {
+            LOGGER.warn("weird that in a non container screen with non-default container, screen:\n{}", screen);
+            return ((IContainer) InventoryUtil.getCurrentContainer()).dc$getSectionHandler();
         }
-        return sectionHandler;
+
+        SectionHandler newHandler = new SectionHandler(guiContainer);
+        ((IContainer) container).dc$setSectionHandler(newHandler);
+        return newHandler;
     }
 
     public static ContainerSection getSection(EnumSection section) {
@@ -98,7 +103,7 @@ public class SectionHandler {
     }
 
     public static ContainerSection getSection(Slot slot) {
-        return streamAllSections().filter(x -> x.hasSlot(slot)).findFirst().orElseThrow();
+        return streamAllSections().filter(x -> x.hasSlot(slot)).findFirst().orElse(ContainerSection.EMPTY);
     }
 
     public static ContainerSection getSection(int globalIndex) {
@@ -108,6 +113,6 @@ public class SectionHandler {
                         .anyMatch(y -> InventoryUtil.getSlotId(y) == globalIndex)
                 )
                 .findFirst()
-                .orElseThrow();
+                .orElse(ContainerSection.EMPTY);
     }
 }
