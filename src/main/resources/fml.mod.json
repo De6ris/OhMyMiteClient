@@ -15,10 +15,10 @@
   ],
   "entrypoints": {
     "client": [
-      "com.github.Debris.ommc.OhMyMiteClient"
+      "com.github.debris.ommc.OhMyMiteClient"
     ],
     "modmenu": [
-      "com.github.Debris.ommc.compat.ModMenuImpl"
+      "com.github.debris.ommc.compat.ModMenuImpl"
     ]
   },
   "mixins": [
