@@ -8,15 +8,15 @@ import net.minecraft.Minecraft;
 
 import java.util.List;
 
-public class OMMCTickHandlers implements IClientTickHandler {
-    private static final OMMCTickHandlers Instance = new OMMCTickHandlers();
+public class TickListener implements IClientTickHandler {
+    private static final TickListener Instance = new TickListener();
     private final List<IClientTickHandler> tickHandlers;
 
-    public static OMMCTickHandlers getInstance() {
+    public static TickListener getInstance() {
         return Instance;
     }
 
-    OMMCTickHandlers() {
+    TickListener() {
         this.tickHandlers = List.of(QuitGameManager.getInstance()
                 , ClickManager.getInstance()
                 , TaskManager.getInstance()

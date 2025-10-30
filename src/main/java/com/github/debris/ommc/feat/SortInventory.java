@@ -65,29 +65,23 @@ public class SortInventory {
     // assume no holding item, all slots are well merged, but still blanks between
     private static void sortInternal(ContainerSection section) {
         Comparator<ItemStack> itemStackSorter = SortCategory.getItemStackSorter();
-
         Comparator<Slot> slotSorter = (x, y) -> itemStackSorter.compare(x.getStack(), y.getStack());
-
         BiConsumer<Slot, Slot> swapAction = InventoryUtil::swapSlots;
-//                    DebrisClient.logger.info("swapping the {} and {}", j, j + 1);
 
-//        if (DCCommonConfig.SortingBoxesLast.getBooleanValue()) {
-//            putBoxesLast(section);
-//
-//            Map<Boolean, List<Slot>> grouped = section.slots().stream().filter(Slot::hasStack).collect(Collectors.partitioningBy(x -> isShulkerBox(x.getStack())));
-//
-//            Slot[] nonBoxes = grouped.get(false).toArray(Slot[]::new);
-//            Slot[] boxes = grouped.get(true).toArray(Slot[]::new);
-//
-//            runSorting(nonBoxes, slotSorter, swapAction);
-//            runSorting(boxes, slotSorter, swapAction);
+//        if (DCCommonConfig.SortingContainersLast.getBooleanValue()) {
+//            putContainersLast(section);
+//            splitByContainer(section).forEach(x -> process(x, slotSorter, swapAction));
 //        } else {
+            process(section, slotSorter, swapAction);
+//        }
+    }
+
+    private static void process(ContainerSection section, Comparator<Slot> sorter, BiConsumer<Slot, Slot> swapAction) {
         section.fillBlanks();
         section.mergeSlots();
         section.fillBlanks();
         Slot[] nonEmptySlots = section.slots().stream().filter(Slot::getHasStack).toArray(Slot[]::new);
-        runSorting(nonEmptySlots, slotSorter, swapAction);
-//        }
+        runSorting(nonEmptySlots, sorter, swapAction);
     }
 
     /*
