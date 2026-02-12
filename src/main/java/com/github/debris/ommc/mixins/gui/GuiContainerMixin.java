@@ -24,7 +24,7 @@ public abstract class GuiContainerMixin extends GuiScreen {
 
     @Inject(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/GuiScreen;mouseClicked(III)V", shift = At.Shift.AFTER), cancellable = true)
     private void preTricks(int par1, int par2, int button, CallbackInfo ci) {
-        if (button == 0 && InventoryTweaks.shouldCancelLeftClick(this.theSlot)) {
+        if (button == 0 && InventoryTweaks.shouldCancelLeftClick((GuiContainer) (Object) this, this.theSlot)) {
             ci.cancel();
         }
     }
@@ -38,7 +38,7 @@ public abstract class GuiContainerMixin extends GuiScreen {
     @Inject(method = "keyTyped", at = @At("HEAD"))
     private void dropAll(char par1, int par2, CallbackInfo ci) {
         Slot mouseOver = this.theSlot;
-        if (InventoryTweaks.shouldDoTrick(mouseOver) && InventoryConfig.DropSimilar.getKeybind().isKeybindHeld()) {
+        if (InventoryTweaks.shouldDoTrick((GuiContainer) (Object) this, mouseOver) && InventoryConfig.DropSimilar.getKeybind().isKeybindHeld()) {
             SectionHandler.getSection(mouseOver).predicateRun(ItemUtil.predicateIDMeta(mouseOver.getStack()), InventoryUtil::dropStack);
         }
     }

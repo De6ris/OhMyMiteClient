@@ -17,8 +17,8 @@ public class InventoryTweaks {
         return InventoryConfig.ShouldTweakInventory.getBooleanValue();
     }
 
-    public static boolean shouldDoTrick(Slot mouseOver) {
-        return mouseOver != null && mouseOver.getHasStack() && isActive() && !(InventoryUtil.getGuiContainer() instanceof GuiContainerCreative);
+    public static boolean shouldDoTrick(GuiContainer guiContainer, Slot mouseOver) {
+        return mouseOver != null && mouseOver.getHasStack() && isActive() && !(guiContainer instanceof GuiContainerCreative);
     }
 
     private static ContainerSection expandSectionIfPossible(ContainerSection section) {
@@ -28,8 +28,8 @@ public class InventoryTweaks {
         return section;
     }
 
-    public static boolean shouldCancelLeftClick(Slot mouseOver) {
-        if (!shouldDoTrick(mouseOver)) return false;
+    public static boolean shouldCancelLeftClick(GuiContainer guiContainer, Slot mouseOver) {
+        if (!shouldDoTrick(guiContainer, mouseOver)) return false;
 
         ContainerSection section = SectionHandler.getSection(mouseOver);
         if (tryMoveSimilar()) {
@@ -44,7 +44,7 @@ public class InventoryTweaks {
     }
 
     public static void onRender(GuiContainer guiContainer, int mouseX, int mouseY, Slot mouseOver) {
-        if (!shouldDoTrick(mouseOver)) return;
+        if (!shouldDoTrick(guiContainer, mouseOver)) return;
 
         if (InventoryConfig.ContinuousOperation.getBooleanValue()) {
             ContinuousOperation.quickMoving(guiContainer, mouseX, mouseY, mouseOver);
