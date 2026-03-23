@@ -7,5 +7,9 @@ pluginManagement {
 		}
 		mavenCentral()
 		gradlePluginPortal()
+		maven {
+			name = 'ModdedMITE'
+			url = 'https://maven.limingzxc.top/repository/maven-public/'
+		}
 	}
 }

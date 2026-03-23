@@ -4,7 +4,8 @@
   "version": "${version}",
   "depends": {
     "fishmodloader": ">=3.4.1",
-    "many-lib": ">=2.2.1"
+    "many-lib": ">=2.2.1",
+    "rusted_iron_core": "*"
   },
   "environment": "client",
   "name": "OhMyMiteClient",
