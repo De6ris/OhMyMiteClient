@@ -7,6 +7,7 @@ import net.minecraft.Item;
 import net.minecraft.ItemStack;
 import net.minecraft.Slot;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -125,20 +126,25 @@ public record ContainerSection(List<Slot> slots) {
         for (int i = this.slots.size() - 1; i >= 1; i--) {// inverse order reduce operations; skip first slot
             Slot slot = getSlot(i);
             if (!slot.getHasStack()) continue;// skip those empty
+            if (ItemUtil.isFullStack(slot.getStack())) continue;
             mergeSlotToPrevious(i, slot);
         }
     }
 
     private void mergeSlotToPrevious(int currentIndex, Slot currentSlot) {
-        InventoryUtil.leftClick(currentSlot);// pick up
+        ItemStack stack = currentSlot.getStack();
+        List<Slot> candidates = new ArrayList<>();
         for (int i = 0; i < currentIndex; i++) {
             Slot slot = getSlot(i);
-            if (slot.getHasStack() && ItemUtil.canMerge(slot.getStack(), InventoryUtil.getHeldStack())) {
-                InventoryUtil.leftClick(slot);
-                if (!InventoryUtil.isHoldingItem()) {
-                    return;
-                }
+            if (slot.getHasStack() && ItemUtil.canMerge(slot.getStack(), stack)) {
+                candidates.add(slot);
             }
+        }
+        if (candidates.isEmpty()) return;
+        InventoryUtil.leftClick(currentSlot);// pick up
+        for (Slot slot : candidates) {
+            InventoryUtil.leftClick(slot);
+            if (!InventoryUtil.isHoldingItem()) return;
         }
         if (InventoryUtil.isHoldingItem()) InventoryUtil.putHeldItemDown(this);
     }
@@ -157,7 +163,6 @@ public record ContainerSection(List<Slot> slots) {
             Slot slot = getSlot(i);
             if (!slot.getHasStack()) {
                 InventoryUtil.moveToEmpty(currentSlot, slot);
-//                ManyLib.logger.info("moving {} to empty {}", currentIndex, i);
                 return;
             }
         }

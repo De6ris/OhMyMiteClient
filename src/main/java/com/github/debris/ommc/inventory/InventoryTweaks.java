@@ -76,4 +76,28 @@ public class InventoryTweaks {
         section.get().notEmptyRun(InventoryUtil::dropStack);
         return true;
     }
+
+    // try to put held item to this section, if fail then drop
+    public static void clearCursor(ContainerSection section) {
+        ItemStack heldItem = InventoryUtil.getHeldStack();
+        if (heldItem == null) return;
+        Optional<Slot> mergeSlot = section.absorbsOneScroll(heldItem);
+        while (mergeSlot.isPresent()) {
+            InventoryUtil.leftClick(mergeSlot.get());
+            heldItem = InventoryUtil.getHeldStack();
+            if (heldItem == null) {
+                return;// merge success
+            } else {
+                mergeSlot = section.absorbsOneScroll(heldItem);// try merge to other slot
+            }
+        }
+        if (InventoryUtil.isHoldingItem()) {// if still
+            Optional<Slot> emptySlot = section.getEmptySlot();
+            if (emptySlot.isPresent()) {
+                InventoryUtil.leftClick(emptySlot.get());// put held to empty
+            } else {
+                InventoryUtil.dropHeldItem();// just drop
+            }
+        }
+    }
 }

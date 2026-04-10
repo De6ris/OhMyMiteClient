@@ -49,10 +49,19 @@ public class InventoryUtil {
         leftClick(from);
     }
 
+    public static void moveSomeItem(Slot to, Slot from, int count) {
+        if (count <= 0) return;
+        leftClick(from);
+        for (int i = 0; i < count; i++) {
+            rightClick(to);
+        }
+        leftClick(from);
+    }
+
     public static void swapSlots(Slot slot, Slot other) {
-        leftClick(slot);
-        leftClick(other);
-        leftClick(slot);
+        swapHotBar(slot, 0);
+        swapHotBar(other, 0);
+        swapHotBar(slot, 0);
     }
 
     public static boolean canMergeSlot(Slot to, Slot from) {

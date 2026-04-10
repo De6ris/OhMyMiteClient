@@ -42,6 +42,9 @@ dependencies {
     compileOnly "com.github.MinecraftIsTooEasy:ModMenu:10.1.1"
 
     // optional
+    implementation "com.github.MinecraftIsTooEasy:Gson:2.10.1"
+    implementation "com.github.MinecraftIsTooEasy:FastUtil:8.5.12"
+    implementation "com.github.MinecraftIsTooEasy:EMI:1.1.26"
 }
 
 loom {

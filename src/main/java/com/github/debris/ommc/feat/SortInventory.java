@@ -1,11 +1,15 @@
 package com.github.debris.ommc.feat;
 
+import com.github.debris.ommc.inventory.InventoryTweaks;
 import com.github.debris.ommc.inventory.InventoryUtil;
 import com.github.debris.ommc.inventory.section.ContainerSection;
 import com.github.debris.ommc.inventory.section.EnumSection;
 import com.github.debris.ommc.inventory.section.SectionHandler;
 import com.github.debris.ommc.inventory.sort.SortCategory;
+import com.github.debris.ommc.util.Predicates;
+import com.github.debris.ommc.util.SoundUtil;
 import net.minecraft.ItemStack;
+import net.minecraft.Minecraft;
 import net.minecraft.Slot;
 
 import java.util.Comparator;
@@ -19,13 +23,23 @@ public class SortInventory {
             EnumSection.FakePlayerEnderChestActions
     );
 
-    public static boolean trySort() {
+    public static boolean onKey(Minecraft client) {
+        if (!InventoryTweaks.isActive()) return false;
+        if (Predicates.notInGuiContainer(client)) return false;
+
         Optional<ContainerSection> optional = SectionHandler.getSectionMouseOver();
         if (optional.isEmpty()) return false;
+
         ContainerSection section = optional.get();
         if (!shouldSort(section)) return false;
+
+        SoundUtil.playClickSound(client);
+        return SortInventory.sortSection(section);// this will block other click consumers
+    }
+
+    public static boolean sortSection(ContainerSection section) {
         int before = InventoryUtil.getChangeCount();
-        makeSureNotHoldingItem(section);
+        InventoryTweaks.clearCursor(section);
         sortInternal(section);
         int after = InventoryUtil.getChangeCount();
         return after != before;// seen as sort success
@@ -36,30 +50,6 @@ public class SortInventory {
             if (section.isOf(enumSection)) return false;
         }
         return true;
-    }
-
-    // try to put held item to this section, if fail then drop
-    public static void makeSureNotHoldingItem(ContainerSection section) {
-        ItemStack heldItem = InventoryUtil.getHeldStack();
-        if (heldItem == null) return;
-        Optional<Slot> mergeSlot = section.absorbsOneScroll(heldItem);
-        while (mergeSlot.isPresent()) {
-            InventoryUtil.leftClick(mergeSlot.get());
-            heldItem = InventoryUtil.getHeldStack();
-            if (heldItem == null) {
-                return;// merge success
-            } else {
-                mergeSlot = section.absorbsOneScroll(heldItem);// try merge to other slot
-            }
-        }
-        if (InventoryUtil.isHoldingItem()) {// if still
-            Optional<Slot> emptySlot = section.getEmptySlot();
-            if (emptySlot.isPresent()) {
-                InventoryUtil.leftClick(emptySlot.get());// put held to empty
-            } else {
-                InventoryUtil.dropHeldItem();// just drop
-            }
-        }
     }
 
     // assume no holding item, all slots are well merged, but still blanks between

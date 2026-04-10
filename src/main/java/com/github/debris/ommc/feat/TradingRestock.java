@@ -1,5 +1,6 @@
 package com.github.debris.ommc.feat;
 
+import com.github.debris.ommc.inventory.InventoryTweaks;
 import com.github.debris.ommc.inventory.InventoryUtil;
 import com.github.debris.ommc.inventory.section.ContainerSection;
 import com.github.debris.ommc.inventory.section.EnumSection;
@@ -10,7 +11,7 @@ import java.util.Optional;
 
 public class TradingRestock {
     public static void tryTradingRestock(GuiMerchant guiMerchant) {
-        SortInventory.makeSureNotHoldingItem(EnumSection.InventoryStorage.get());
+        InventoryTweaks.clearCursor(EnumSection.InventoryStorage.get());
         ContainerSection merchantIn = EnumSection.MerchantIn.get();
         ItemStack[] required = getRequiredItems(guiMerchant);
         ItemStack firstItem = required[0];

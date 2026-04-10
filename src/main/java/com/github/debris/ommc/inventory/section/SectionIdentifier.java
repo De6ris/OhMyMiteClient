@@ -57,6 +57,16 @@ public class SectionIdentifier {
                     putSection(EnumSection.InventoryStorage, playerStorage);
                     putSection(EnumSection.Armor, armor);
                 }
+                case 41 -> {// armor, storage, hotBar, offHand
+                    ContainerSection armor = createSection(slotList.subList(0, 4));
+                    playerStorage = createSection(slotList.subList(4, 31));
+                    hotBar = createSection(slotList.subList(31, 40));
+                    ContainerSection offHand = createSection(slotList.subList(40, 41));
+                    putSection(EnumSection.InventoryHotBar, hotBar);
+                    putSection(EnumSection.InventoryStorage, playerStorage);
+                    putSection(EnumSection.Armor, armor);
+                    putSection(EnumSection.OffHand, offHand);
+                }
             }
             return;
         }

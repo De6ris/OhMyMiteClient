@@ -48,12 +48,7 @@ public class Callbacks {
             return true;
         });
 
-        InventoryConfig.SortItem.getKeybind().setCallback((keyAction, iKeybind) -> {
-            if (!InventoryTweaks.isActive()) return false;
-            if (Predicates.notInGuiContainer(client)) return false;
-            client.sndManager.playSoundFX("random.click", 1.0f, 1.0f);
-            return SortInventory.trySort();
-        });
+        InventoryConfig.SortItem.getKeybind().setCallback((keyAction, iKeybind) -> SortInventory.onKey(client));
 
         InventoryConfig.TradingRestock.getKeybind().setCallback((keyAction, iKeybind) -> {
             if (!InventoryTweaks.isActive()) return false;

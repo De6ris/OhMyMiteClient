@@ -25,6 +25,7 @@
     "movement.MovementMixin",
     "movement.Packet202PlayerAbilitiesMixin",
     "movement.PlayerAbilitiesMixin",
+    "network.NetClientHandlerMixin",
     "network.Packet70GameEventMixin",
     "render.EntityRenderMixin",
     "render.RenderManagerMixin"
