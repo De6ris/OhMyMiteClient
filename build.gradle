@@ -44,7 +44,12 @@ dependencies {
     // optional
     implementation "com.github.MinecraftIsTooEasy:Gson:2.10.1"
     implementation "com.github.MinecraftIsTooEasy:FastUtil:8.5.12"
-    implementation "com.github.MinecraftIsTooEasy:EMI:1.1.26"
+    implementation("com.github.MinecraftIsTooEasy:EMI:1.1.26") {
+        exclude group: '*', module: '*'
+    }
+    implementation("com.github.MinecraftIsTooEasy:ModernMITE:3.7.4") {
+        exclude group: '*', module: '*'
+    }
 }
 
 loom {

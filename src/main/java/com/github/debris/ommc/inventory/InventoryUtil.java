@@ -59,9 +59,12 @@ public class InventoryUtil {
     }
 
     public static void swapSlots(Slot slot, Slot other) {
-        swapHotBar(slot, 0);
-        swapHotBar(other, 0);
-        swapHotBar(slot, 0);
+        leftClick(slot);
+        leftClick(other);
+        leftClick(slot);
+//        swapHotBar(slot, 0);
+//        swapHotBar(other, 0);
+//        swapHotBar(slot, 0);
     }
 
     public static boolean canMergeSlot(Slot to, Slot from) {
