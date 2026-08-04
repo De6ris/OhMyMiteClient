@@ -39,7 +39,6 @@ public class MainConfig extends SimpleConfigs {
 
     // press
     public static final ConfigHotkey OpenWindow = ofHotkey("OpenWindow", KeyCodes.getStorageString(Keyboard.KEY_X, Keyboard.KEY_C), "打开本模组的配置");
-    public static final ConfigHotkey OpenModule_Inventory = ofHotkey("配置模块:物品栏", KeyCodes.getStorageString(Keyboard.KEY_I, Keyboard.KEY_C));
     public static final ConfigHotkey CopyTP = ofHotkey("CopyTP", KeyCodes.getStorageString(Keyboard.KEY_F3, Keyboard.KEY_C), "按下后复制到剪贴板");
     public static final ConfigHotkey ToggleGameMode = ofHotkey("ToggleGameMode", KeyCodes.getStorageString(Keyboard.KEY_F3, Keyboard.KEY_F4), "在生存和创造之间切换");
 
@@ -117,7 +116,6 @@ public class MainConfig extends SimpleConfigs {
 
         press = List.of(
                 OpenWindow,
-                OpenModule_Inventory,
                 CopyTP,
                 ToggleGameMode
         );

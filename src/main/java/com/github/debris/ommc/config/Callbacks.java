@@ -1,10 +1,6 @@
 package com.github.debris.ommc.config;
 
-import com.github.debris.ommc.feat.SortInventory;
-import com.github.debris.ommc.feat.TradingRestock;
-import com.github.debris.ommc.inventory.InventoryTweaks;
-import com.github.debris.ommc.util.Misc;
-import com.github.debris.ommc.util.Predicates;
+import com.github.debris.ommc.feat.MiscFeat;
 import fi.dy.masa.malilib.config.interfaces.IValueChangeCallback;
 import fi.dy.masa.malilib.config.options.ConfigHotkey;
 import fi.dy.masa.malilib.config.options.ConfigToggle;
@@ -19,16 +15,11 @@ public class Callbacks {
             return true;
         });
 
-        MainConfig.OpenModule_Inventory.getKeybind().setCallback((keyAction, iKeybind) -> {
-            Minecraft.getMinecraft().displayGuiScreen(InventoryConfig.getInstance().getConfigScreen(null));
-            return true;
-        });
-
         MainConfig.HoldUse.setValueChangeCallback(new FeatureCallbackHold(client.gameSettings.keyBindUseItem));
         MainConfig.HoldAttack.setValueChangeCallback(new FeatureCallbackHold(client.gameSettings.keyBindAttack));
 
         MainConfig.CopyTP.getKeybind().setCallback((keyAction, iKeybind) -> {
-            Misc.copyToClipboard("/tp " + client.thePlayer.posX + " " + client.thePlayer.posY + " " + client.thePlayer.posZ);
+            MiscFeat.copyToClipboard("/tp " + client.thePlayer.posX + " " + client.thePlayer.posY + " " + client.thePlayer.posZ);
             RenderUtils.setGuiIngameInfo(I18n.getString("ommc.CopyTP.success"));
             return true;
         });
@@ -46,24 +37,6 @@ public class Callbacks {
             client.getNetHandler().addToSendQueue(new Packet5PlayerInventory(client.thePlayer.entityId, client.thePlayer.inventory.currentItem, itemStack));
             RenderUtils.setGuiIngameInfo("已发包");
             return true;
-        });
-
-        InventoryConfig.SortItem.getKeybind().setCallback((keyAction, iKeybind) -> SortInventory.onKey(client));
-
-        InventoryConfig.TradingRestock.getKeybind().setCallback((keyAction, iKeybind) -> {
-            if (!InventoryTweaks.isActive()) return false;
-            if (Minecraft.getMinecraft().currentScreen instanceof GuiMerchant guiMerchant) {
-                TradingRestock.tryTradingRestock(guiMerchant);
-                client.sndManager.playSoundFX("random.click", 1.0f, 1.0f);
-                return true;
-            }
-            return false;
-        });
-
-        InventoryConfig.ThrowSection.getKeybind().setCallback((keyAction, iKeybind) -> {
-            if (!InventoryTweaks.isActive()) return false;
-            if (Predicates.notInGuiContainer(client)) return false;
-            return InventoryTweaks.tryThrowSection();
         });
     }
 

@@ -15,6 +15,6 @@ public class OhMyMiteClient implements ClientModInitializer {
     public void onInitializeClient() {
         MainConfig.getInstance().load();
         InitializationHandler.getInstance().registerInitializationHandler(new InitListener());
-        ModResourceManager.addResourcePackDomain("ommc");
+        ModResourceManager.addResourcePackDomain(MOD_ID);
     }
 }

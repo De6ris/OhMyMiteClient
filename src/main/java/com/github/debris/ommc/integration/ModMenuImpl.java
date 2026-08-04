@@ -1,4 +1,4 @@
-package com.github.debris.ommc.compat;
+package com.github.debris.ommc.integration;
 
 import com.github.debris.ommc.config.MainConfig;
 import io.github.prospector.modmenu.api.ConfigScreenFactory;

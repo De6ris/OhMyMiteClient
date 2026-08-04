@@ -36,7 +36,7 @@ dependencies {
 
     // depends
     implementation "com.github.MinecraftIsTooEasy:RustedIronCore:1.5.0"
-    implementation "com.github.MinecraftIsTooEasy:ManyLib:2.3.0"
+    implementation "com.github.MinecraftIsTooEasy:ManyLib:2.3.1"
 
     // compile
     compileOnly "com.github.MinecraftIsTooEasy:ModMenu:10.1.1"

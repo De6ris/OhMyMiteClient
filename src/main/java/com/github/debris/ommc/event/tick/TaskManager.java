@@ -17,6 +17,9 @@ public class TaskManager implements IClientTickHandler {
         return Instance;
     }
 
+    private TaskManager() {
+    }
+
     private final LinkedList<ClientTask<?>> taskQueue = new LinkedList<>();
 
     private final List<AbstractTimedTask> timedTasks = new ArrayList<>();

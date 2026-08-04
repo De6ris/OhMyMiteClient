@@ -19,7 +19,7 @@
       "com.github.debris.ommc.OhMyMiteClient"
     ],
     "modmenu": [
-      "com.github.debris.ommc.compat.ModMenuImpl"
+      "com.github.debris.ommc.integration.ModMenuImpl"
     ]
   },
   "mixins": [
