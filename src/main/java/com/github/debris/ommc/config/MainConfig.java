@@ -5,6 +5,8 @@ import com.google.common.collect.ImmutableList;
 import fi.dy.masa.malilib.config.ConfigTab;
 import fi.dy.masa.malilib.config.SimpleConfigs;
 import fi.dy.masa.malilib.config.options.*;
+import fi.dy.masa.malilib.hotkeys.KeybindMulti;
+import fi.dy.masa.malilib.hotkeys.KeybindSettings;
 import fi.dy.masa.malilib.util.KeyCodes;
 import org.lwjgl.input.Keyboard;
 
@@ -41,6 +43,10 @@ public class MainConfig extends SimpleConfigs {
     public static final ConfigHotkey OpenWindow = ofHotkey("OpenWindow", KeyCodes.getStorageString(Keyboard.KEY_X, Keyboard.KEY_C), "打开本模组的配置");
     public static final ConfigHotkey CopyTP = ofHotkey("CopyTP", KeyCodes.getStorageString(Keyboard.KEY_F3, Keyboard.KEY_C), "按下后复制到剪贴板");
     public static final ConfigHotkey ToggleGameMode = ofHotkey("ToggleGameMode", KeyCodes.getStorageString(Keyboard.KEY_F3, Keyboard.KEY_F4), "在生存和创造之间切换");
+    public static final ConfigHotkey CopyItemID = ofHotkey("复制物品ID", KeybindMulti.fromStorageString(
+            KeyCodes.getStorageString(Keyboard.KEY_LCONTROL, Keyboard.KEY_C),
+            KeybindSettings.GUI
+    ), "仅在EMI有用");
 
 
     // toggle
@@ -117,7 +123,8 @@ public class MainConfig extends SimpleConfigs {
         press = List.of(
                 OpenWindow,
                 CopyTP,
-                ToggleGameMode
+                ToggleGameMode,
+                CopyItemID
         );
 
         toggle = List.of(

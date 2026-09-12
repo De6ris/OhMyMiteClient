@@ -23,9 +23,9 @@
     ]
   },
   "mixins": [
-    "OhMyMiteClient.mixins.json"
+    "ommc.mixins.json"
   ],
-  "accessWidener": "OhMyMiteClient.accesswidener",
+  "accessWidener": "ommc.accesswidener",
   "custom": {
     "modmenu": {
       "clientsideOnly": true

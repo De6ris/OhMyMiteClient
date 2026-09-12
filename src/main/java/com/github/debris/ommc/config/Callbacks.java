@@ -24,13 +24,10 @@ public class Callbacks {
             return true;
         });
         MainConfig.ToggleGameMode.getKeybind().setCallback((keyAction, iKeybind) -> {
-            if (Minecraft.inDevMode()) {
-                client.thePlayer.sendChatMessage("/gamemode " + ((client.thePlayer).isPlayerInCreative() ? 0 : 1));
-            } else {
-                RenderUtils.setGuiIngameInfo(I18n.getString("ommc.toggleGameMode.fail"));
-            }
+            MiscFeat.toggleGameMode(client);
             return true;
         });
+        MainConfig.CopyItemID.getKeybind().setCallback((keyAction, iKeybind) -> MiscFeat.copyItemID(client));
         MainConfig.GammaOverride.setValueChangeCallback(configBoolean -> client.gameSettings.gammaSetting = configBoolean.getBooleanValue() ? 15.0F : 1.0F);
         MainConfig.Test.getKeybind().setCallback((keyAction, iKeybind) -> {
             ItemStack itemStack = new ItemStack(Block.anvilAdamantium);
